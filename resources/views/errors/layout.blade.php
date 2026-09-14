@@ -119,10 +119,5 @@
             </div>
         </div>
     </main>
-
-    <!-- Footer Copyright -->
-    <footer class="relative z-10 w-full max-w-6xl mx-auto px-6 py-4 text-center text-xs text-slate-600 font-mono">
-        &copy; {{ date('Y') }} ExpenseTrace — Perjalanan Dinas & Expense Management System.
-    </footer>
 </body>
 </html>
