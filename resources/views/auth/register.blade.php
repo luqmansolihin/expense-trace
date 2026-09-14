@@ -51,7 +51,7 @@
                 </label>
                 <select id="role" name="role" required class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-white text-slate-900 border border-slate-300 @error('role') border-rose-500 @enderror">
                     <option value="finance" {{ old('role', 'finance') == 'finance' ? 'selected' : '' }}>💼 Finance (Pemohon, Pengelola Transaksi & Pembayaran)</option>
-                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>👤 User / Penumpang Perjalanan</option>
+                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>👤 User (Read Only)</option>
                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>🛡️ Admin Manager (Akses Penuh)</option>
                 </select>
                 @error('role')

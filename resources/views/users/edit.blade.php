@@ -64,7 +64,7 @@
                             @elseif($rOption === 'finance')
                                 (Membuat, Mengelola Transaksi & Pembayaran)
                             @else
-                                (Read-Only Penumpang)
+                                (Read Only)
                             @endif
                         </option>
                     @endforeach
