@@ -67,12 +67,12 @@
     <!-- Header Navigation -->
     <header class="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
         <a href="{{ url('/') }}" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 group-hover:scale-105 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 group-hover:scale-105 transition-all">
                 <i class="fa-solid fa-receipt text-lg"></i>
             </div>
             <div>
                 <span class="font-display font-bold text-lg tracking-tight text-white block">ExpenseTrace</span>
-                <span class="text-[10px] font-mono text-sky-400 block -mt-1">Management & Analytics</span>
+                <span class="text-[11px] font-medium text-slate-400 block -mt-0.5">Perjalanan Dinas & Expense Management System</span>
             </div>
         </a>
 
