@@ -72,7 +72,7 @@
             </div>
             <div>
                 <span class="font-display font-bold text-lg tracking-tight text-white block">ExpenseTrace</span>
-                <span class="text-[11px] font-medium text-slate-400 block -mt-0.5">Perjalanan Dinas & Expense Management System</span>
+                <span class="text-[11px] font-medium text-slate-400 block -mt-0.5">Purchase & Payment Tracking System</span>
             </div>
         </a>
 
