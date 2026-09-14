@@ -62,7 +62,7 @@
                             @if($rOption === 'admin')
                                 (Full Control System)
                             @elseif($rOption === 'finance')
-                                (Membuat, Mengelola Tiket & Pembayaran)
+                                (Membuat, Mengelola Transaksi & Pembayaran)
                             @else
                                 (Read-Only Penumpang)
                             @endif

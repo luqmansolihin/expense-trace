@@ -50,7 +50,7 @@
                     Peran Akun / Hak Akses (Role) <span class="text-rose-400">*</span>
                 </label>
                 <select id="role" name="role" required class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-slate-900 @error('role') border-rose-500 @enderror">
-                    <option value="finance" {{ old('role', 'finance') == 'finance' ? 'selected' : '' }}>💼 Finance (Pemesan & Pembayar Tiket)</option>
+                    <option value="finance" {{ old('role', 'finance') == 'finance' ? 'selected' : '' }}>💼 Finance (Pemohon, Pengelola Transaksi & Pembayaran)</option>
                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>👤 User / Penumpang Perjalanan</option>
                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>🛡️ Admin Manager (Akses Penuh)</option>
                 </select>
