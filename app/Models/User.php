@@ -101,9 +101,9 @@ class User extends Authenticatable
     public function getRoleBadgeClassAttribute(): string
     {
         return match ($this->role) {
-            'admin' => 'bg-amber-500/10 text-amber-300 border-amber-500/30',
-            'finance', 'booker', 'payer' => 'bg-sky-500/10 text-sky-300 border-sky-500/30',
-            default => 'bg-slate-500/10 text-slate-300 border-slate-500/30',
+            'admin' => 'bg-amber-50 text-amber-800 border-amber-300 font-bold',
+            'finance', 'booker', 'payer' => 'bg-sky-50 text-sky-800 border-sky-300 font-bold',
+            default => 'bg-slate-100 text-slate-700 border-slate-300 font-medium',
         };
     }
 }
