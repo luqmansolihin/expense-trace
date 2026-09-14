@@ -78,10 +78,18 @@
                 <label for="password" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Ubah Password <span class="text-slate-500">(Kosongkan jika tidak ingin mengubah password)</span>
                 </label>
-                <input type="password" id="password" name="password" placeholder="Masukkan password baru (minimal 6 karakter)..." class="w-full glass-input rounded-xl px-4 py-2.5 text-sm @error('password') border-rose-500 @enderror">
+                <input type="password" id="password" name="password" placeholder="Masukkan password baru (minimal 8 karakter)..." class="w-full glass-input rounded-xl px-4 py-2.5 text-sm @error('password') border-rose-500 @enderror">
                 @error('password')
                     <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Konfirmasi Password -->
+            <div>
+                <label for="password_confirmation" class="block text-xs font-medium text-slate-700 mb-1.5">
+                    Konfirmasi Password Baru
+                </label>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ulangi password baru" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm placeholder-slate-400">
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">

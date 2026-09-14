@@ -11,7 +11,7 @@
         <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-2">
             <i class="fa-solid fa-user-plus text-purple-600"></i> Buat Akun Pengguna Baru
         </h1>
-        <p class="text-slate-600 text-xs sm:text-sm mt-1">Form pendaftaran akun khusus Administrator untuk menambahkan Finance atau User Penumpang baru.</p>
+        <p class="text-slate-600 text-xs sm:text-sm mt-1">Form pendaftaran akun khusus Administrator untuk menambahkan Finance atau User baru.</p>
     </div>
 
     <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 bg-white">

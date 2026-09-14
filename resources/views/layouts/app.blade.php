@@ -385,6 +385,8 @@
     <!-- SPA Router Engine Script -->
     <script>
         (function() {
+            let currentSpaUrl = window.location.href;
+
             function initSpaEngine() {
                 if (window.location.pathname !== '/main/index' && window.location.pathname !== '/login' && window.location.pathname !== '/index') {
                     try {
@@ -480,7 +482,7 @@
                 updateActiveSidebarLinks(window.location.pathname);
 
                 async function loadSpaPage(url, options = {}) {
-                    const { method = 'GET', body = null, pushHistory = true } = options;
+                    const { method = 'GET', body = null } = options;
                     const mainEl = document.querySelector('main');
 
                     if (!mainEl) {
@@ -495,8 +497,10 @@
                     try {
                         const fetchOptions = {
                             method: method,
+                            referrer: currentSpaUrl,
                             headers: {
-                                'X-SPA-REQUEST': '1'
+                                'X-SPA-REQUEST': '1',
+                                'Accept': 'text/html, application/xhtml+xml, */*'
                             }
                         };
 
@@ -508,11 +512,6 @@
 
                         if (response.redirected && (response.url.includes('/login') || response.url.includes('/index'))) {
                             window.location.href = response.url;
-                            return;
-                        }
-
-                        if (!response.ok) {
-                            window.location.href = url;
                             return;
                         }
 
@@ -531,6 +530,12 @@
                             }
 
                             const targetUrl = response.url || url;
+                            currentSpaUrl = targetUrl;
+
+                            try {
+                                window.history.replaceState(window.history.state, '', '/main/index');
+                            } catch(e){}
+
                             updateActiveSidebarLinks(new URL(targetUrl, window.location.origin).pathname);
 
                             // Re-execute inline scripts inside newly loaded content
@@ -561,11 +566,15 @@
                             mainEl.scrollTo({ top: 0, behavior: 'instant' });
                             window.dispatchEvent(new CustomEvent('spa:loaded', { detail: { url: targetUrl } }));
                         } else {
-                            window.location.href = url;
+                            if (method === 'GET') {
+                                window.location.href = url;
+                            }
                         }
                     } catch (err) {
-                        console.error('SPA Load Error, fallback to full navigate:', err);
-                        window.location.href = url;
+                        console.error('SPA Load Error:', err);
+                        if (method === 'GET') {
+                            window.location.href = url;
+                        }
                     } finally {
                         if (mainEl) mainEl.style.opacity = '1';
                         finishProgress();
