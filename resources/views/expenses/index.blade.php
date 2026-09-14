@@ -214,38 +214,7 @@
                 <table class="w-full text-left text-[9.5px] leading-tight text-slate-800 whitespace-nowrap border-collapse">
                     <thead class="bg-slate-100 text-[9px] uppercase font-bold text-slate-700 tracking-tight border-b border-slate-200 whitespace-nowrap sticky top-0 z-20 backdrop-blur-md">
                         <tr>
-                            <!-- 1. Kode Booking / Ref -->
-                            <th class="py-1 px-2 whitespace-nowrap relative border-r border-slate-200 transition-colors" :class="activeFilters.code ? 'bg-emerald-50 border-b-2 border-b-emerald-600 text-emerald-900' : ''" @click.outside="if (openPop === 'code') openPop = null">
-                                <div class="flex items-center gap-1.5 justify-between">
-                                    <button type="button" @click="toggleSort('booking_code')" class="flex items-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort" :class="getSortIndex('booking_code') !== -1 ? 'text-emerald-700 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Kode Ref">
-                                        <span>Kode Ref</span>
-                                        <template x-if="getSortIndex('booking_code') === -1">
-                                            <i class="fa-solid fa-sort text-slate-400 text-[10px] group-hover/sort:text-slate-600 transition-colors"></i>
-                                        </template>
-                                        <template x-if="getSortIndex('booking_code') !== -1">
-                                            <span class="inline-flex items-center gap-0.5 text-emerald-700 font-bold text-[10px]">
-                                                <i class="fa-solid" :class="getSortDir('booking_code') === 'asc' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'"></i>
-                                                <span x-show="sorts.length > 1" class="text-[8px] bg-emerald-100 px-1 py-0.2 rounded-full border border-emerald-300 font-mono text-emerald-800" x-text="getSortIndex('booking_code') + 1"></span>
-                                            </span>
-                                        </template>
-                                    </button>
-                                    <button type="button" @click="openPop = (openPop === 'code' ? null : 'code')" class="p-1 rounded transition-colors" :class="activeFilters.code ? 'text-emerald-700 bg-emerald-100 ring-1 ring-emerald-400 font-bold shadow-sm' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200'" title="Filter Kode Ref">
-                                        <i class="fa-solid" :class="activeFilters.code ? 'fa-filter text-emerald-600 text-[11px]' : 'fa-caret-down text-xs'"></i>
-                                    </button>
-                                </div>
-                                <div x-show="openPop === 'code'" x-cloak x-transition class="absolute z-50 left-0 mt-2 p-3 bg-white border border-slate-200 rounded-xl shadow-xl space-y-3 text-left font-normal normal-case min-w-[220px]">
-                                    <div class="text-xs font-semibold text-slate-800 border-b border-slate-200 pb-1.5 flex items-center justify-between">
-                                        <span>Filter Kode Ref</span>
-                                        <i class="fa-solid fa-hashtag text-emerald-600"></i>
-                                    </div>
-                                    <input type="text" name="search_code" value="{{ $searchCode }}" placeholder="Cari kode referensi..." class="w-full h-8 rounded-lg px-2.5 text-xs bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-emerald-600 focus:outline-none">
-                                    <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-200">
-                                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow transition-colors">Terapkan</button>
-                                    </div>
-                                </div>
-                            </th>
-
-                            <!-- 2. Kode Invoice -->
+                            <!-- 1. Kode Invoice -->
                             <th class="py-1 px-2 whitespace-nowrap relative border-r border-slate-200 transition-colors" :class="activeFilters.invoice ? 'bg-emerald-50 border-b-2 border-b-emerald-600 text-emerald-900' : ''" @click.outside="if (openPop === 'invoice') openPop = null">
                                 <div class="flex items-center gap-1.5 justify-between">
                                     <button type="button" @click="toggleSort('invoice_code')" class="flex items-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort" :class="getSortIndex('invoice_code') !== -1 ? 'text-emerald-700 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Kode Invoice">
@@ -378,11 +347,11 @@
                                 </div>
                             </th>
 
-                            <!-- 5. Pengaju (Booked By) -->
+                            <!-- 4. Pemohon/Penerima -->
                             <th class="py-1 px-2 whitespace-nowrap relative border-r border-slate-200 transition-colors" :class="activeFilters.booker ? 'bg-emerald-50 border-b-2 border-b-emerald-600 text-emerald-900' : ''" @click.outside="if (openPop === 'booker') openPop = null">
                                 <div class="flex items-center gap-1.5 justify-between">
-                                    <button type="button" @click="toggleSort('booked_by')" class="flex items-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort" :class="getSortIndex('booked_by') !== -1 ? 'text-emerald-700 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Pengaju">
-                                        <span>Pengaju</span>
+                                    <button type="button" @click="toggleSort('booked_by')" class="flex items-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort" :class="getSortIndex('booked_by') !== -1 ? 'text-emerald-700 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Pemohon/Penerima">
+                                        <span>Pemohon/Penerima</span>
                                         <template x-if="getSortIndex('booked_by') === -1">
                                             <i class="fa-solid fa-sort text-slate-400 text-[10px] group-hover/sort:text-slate-600 transition-colors"></i>
                                         </template>
@@ -393,16 +362,16 @@
                                             </span>
                                         </template>
                                     </button>
-                                    <button type="button" @click="openPop = (openPop === 'booker' ? null : 'booker')" class="p-1 rounded transition-colors" :class="activeFilters.booker ? 'text-emerald-700 bg-emerald-100 ring-1 ring-emerald-400 font-bold shadow-sm' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200'" title="Filter Pengaju">
+                                    <button type="button" @click="openPop = (openPop === 'booker' ? null : 'booker')" class="p-1 rounded transition-colors" :class="activeFilters.booker ? 'text-emerald-700 bg-emerald-100 ring-1 ring-emerald-400 font-bold shadow-sm' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200'" title="Filter Pemohon/Penerima">
                                         <i class="fa-solid" :class="activeFilters.booker ? 'fa-filter text-emerald-600 text-[11px]' : 'fa-caret-down text-xs'"></i>
                                     </button>
                                 </div>
                                 <div x-show="openPop === 'booker'" x-cloak x-transition class="absolute z-50 left-0 mt-2 p-3 bg-white border border-slate-200 rounded-xl shadow-xl space-y-3 text-left font-normal normal-case min-w-[220px]">
                                     <div class="text-xs font-semibold text-slate-800 border-b border-slate-200 pb-1.5 flex items-center justify-between">
-                                        <span>Filter Pengaju</span>
+                                        <span>Filter Pemohon/Penerima</span>
                                         <i class="fa-solid fa-user-pen text-emerald-600"></i>
                                     </div>
-                                    <input type="text" name="search_booker" value="{{ $searchBooker }}" placeholder="Cari nama pengaju..." class="w-full h-8 rounded-lg px-2.5 text-xs bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-emerald-600 focus:outline-none">
+                                    <input type="text" name="search_booker" value="{{ $searchBooker }}" placeholder="Cari nama pemohon/penerima..." class="w-full h-8 rounded-lg px-2.5 text-xs bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-emerald-600 focus:outline-none">
                                     <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-200">
                                         <button type="submit" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow transition-colors">Terapkan</button>
                                     </div>

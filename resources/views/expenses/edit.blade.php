@@ -47,7 +47,7 @@
                 <i class="fa-solid fa-lock text-xl text-emerald-700 shrink-0"></i>
                 <div>
                     <span class="font-bold block text-sm">Transaksi Biaya Berstatus Lunas — Mode Pembatasan Akses (Finance)</span>
-                    <span>Data biaya dan pengaju telah dikunci karena pembayaran sudah <strong>Lunas</strong>. Sebagai Finance, Anda diperbolehkan mengedit <strong>Tanggal Pembayaran</strong> atau mengubah status menjadi <strong>Dibatalkan</strong>.</span>
+                    <span>Data biaya dan pemohon/penerima telah dikunci karena pembayaran sudah <strong>Lunas</strong>. Sebagai Finance, Anda diperbolehkan mengedit <strong>Tanggal Pembayaran</strong> atau mengubah status menjadi <strong>Dibatalkan</strong>.</span>
                 </div>
             </div>
         @endif
@@ -57,7 +57,6 @@
             @method('PUT')
 
             @if($isDataLocked)
-                <input type="hidden" name="booking_code" value="{{ old('booking_code', $expense->booking_code) }}">
                 <input type="hidden" name="invoice_code" value="{{ old('invoice_code', $expense->invoice_code) }}">
                 <input type="hidden" name="booking_date" value="{{ old('booking_date', $expense->booking_date ? $expense->booking_date->format('Y-m-d') : '') }}">
                 <input type="hidden" name="expense_name" value="{{ old('expense_name', $expense->expense_name) }}">
@@ -91,11 +90,6 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1.5">Kode Booking / Referensi <span class="text-slate-500">(Opsional)</span></label>
-                        <input type="text" name="booking_code" value="{{ old('booking_code', $expense->booking_code) }}" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
-                    </div>
-
-                    <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Kode Invoice <span class="text-rose-600">*</span></label>
                         <input type="text" name="invoice_code" value="{{ old('invoice_code', $expense->invoice_code) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
                     </div>
@@ -109,15 +103,15 @@
 
             <hr class="border-slate-200">
 
-            <!-- Section 2: Pemesan & Pembayaran -->
+            <!-- Section 2: Pemohon/Penerima & Pembayaran -->
             <div>
                 <h3 class="text-xs sm:text-sm font-semibold text-emerald-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet"></i> Detail Pengaju & Pembayaran
+                    <i class="fa-solid fa-wallet"></i> Detail Pemohon/Penerima & Pembayaran
                 </h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                     <div class="md:col-span-2">
-                        <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama Pengaju / Pemesan (Booked By) <span class="text-rose-600">*</span></label>
+                        <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama Pemohon/Penerima <span class="text-rose-600">*</span></label>
                         <input type="text" name="booked_by" value="{{ old('booked_by', $expense->booked_by) }}" required placeholder="Contoh: Martha" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed">
                         <input type="hidden" name="booked_by_user_id" value="{{ old('booked_by_user_id', $expense->booked_by_user_id ?: Auth::id()) }}">
                     </div>

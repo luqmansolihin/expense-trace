@@ -46,17 +46,12 @@
             </div>
 
             <div>
-                <span class="text-slate-500 block mb-1">Kode Booking / Referensi</span>
-                <span class="text-sm font-semibold font-mono text-emerald-700 block">{{ $expense->booking_code ?: '-' }}</span>
-            </div>
-
-            <div>
                 <span class="text-slate-500 block mb-1">Tanggal Biaya</span>
                 <span class="text-sm font-semibold font-mono text-slate-800 block">{{ $expense->booking_date ? $expense->booking_date->format('d M Y') : '-' }}</span>
             </div>
 
             <div>
-                <span class="text-slate-500 block mb-1">Pengaju / Pemesan (Booked By)</span>
+                <span class="text-slate-500 block mb-1">Pemohon/Penerima</span>
                 <span class="text-sm font-semibold text-emerald-800 block">{{ $expense->booked_by }}</span>
             </div>
 

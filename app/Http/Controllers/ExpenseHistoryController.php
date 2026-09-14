@@ -216,7 +216,7 @@ class ExpenseHistoryController extends Controller
             'invoice_code.unique' => 'Kode invoice sudah digunakan.',
             'expense_name.required' => 'Nama / Rincian Biaya wajib diisi.',
             'booking_date.required' => 'Tanggal biaya wajib diisi.',
-            'booked_by.required' => 'Nama pengaju / pemesan wajib diisi.',
+            'booked_by.required' => 'Nama pemohon/penerima wajib diisi.',
             'amount.required' => 'Nominal biaya wajib diisi.',
         ]);
 
@@ -472,11 +472,10 @@ class ExpenseHistoryController extends Controller
             fputs($file, "\xEF\xBB\xBF");
 
             fputcsv($file, [
-                'Kode Booking / Referensi',
                 'Kode Invoice',
                 'Tanggal Biaya',
                 'Nama / Rincian Biaya',
-                'Pengaju / Pemesan (Booked By)',
+                'Pemohon/Penerima',
                 'Pembayaran Oleh (Paid By)',
                 'Tanggal Bayar',
                 'Nominal Biaya (IDR)',
@@ -486,7 +485,6 @@ class ExpenseHistoryController extends Controller
 
             foreach ($expenses as $e) {
                 fputcsv($file, [
-                    $e->booking_code ?? '-',
                     $e->invoice_code,
                     $e->booking_date ? $e->booking_date->format('Y-m-d') : '',
                     $e->expense_name,
