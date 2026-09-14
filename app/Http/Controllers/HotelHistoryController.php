@@ -354,7 +354,7 @@ class HotelHistoryController extends Controller
             'booked_by.required' => 'Nama pemesan wajib diisi.',
         ]);
 
-        $names = array_values(array_filter(array_map('trim', $validated['guest_names'])));
+        $names = array_values(array_unique(array_filter(array_map('trim', $validated['guest_names']))));
         $guestName = implode(', ', $names);
 
         if (empty($validated['booked_by'])) {
@@ -515,7 +515,7 @@ class HotelHistoryController extends Controller
             'booked_by.required' => 'Nama pemesan wajib diisi.',
         ]);
 
-        $names = array_values(array_filter(array_map('trim', $validated['guest_names'])));
+        $names = array_values(array_unique(array_filter(array_map('trim', $validated['guest_names']))));
         $guestName = implode(', ', $names);
 
         if (!Auth::user()->isAdmin()) {

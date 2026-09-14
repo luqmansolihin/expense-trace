@@ -73,9 +73,6 @@
                 <input type="hidden" name="amount" value="{{ old('amount', $hotel->amount) }}">
                 <input type="hidden" name="booked_by" value="{{ old('booked_by', $hotel->booked_by) }}">
                 <input type="hidden" name="booked_by_user_id" value="{{ old('booked_by_user_id', $hotel->booked_by_user_id) }}">
-                @foreach($hotel->guests_list as $gIdx => $gName)
-                    <input type="hidden" name="guest_names[{{ $gIdx }}]" value="{{ $gName }}">
-                @endforeach
             @endif
 
             @if ($errors->any())

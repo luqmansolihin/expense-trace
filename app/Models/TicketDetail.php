@@ -35,12 +35,12 @@ class TicketDetail extends Model
         if (str_starts_with(trim($this->passenger_name), '[')) {
             $decoded = json_decode($this->passenger_name, true);
             if (is_array($decoded)) {
-                return array_values(array_filter(array_map('trim', $decoded)));
+                return array_values(array_unique(array_filter(array_map('trim', $decoded))));
             }
         }
 
         $items = preg_split('/[,\n]+/', $this->passenger_name);
-        return array_values(array_filter(array_map('trim', $items)));
+        return array_values(array_unique(array_filter(array_map('trim', $items))));
     }
 
     /**

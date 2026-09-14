@@ -4,7 +4,7 @@
 
 @section('content')
 <div x-data="{ 
-    guests: ['{{ old('guest_names.0', '') }}'],
+    guests: {{ json_encode(old('guest_names', [''])) }},
     addGuest() { this.guests.push(''); },
     removeGuest(index) { if (this.guests.length > 1) this.guests.splice(index, 1); },
     status: '{{ old('status', 'Belum Bayar') }}'

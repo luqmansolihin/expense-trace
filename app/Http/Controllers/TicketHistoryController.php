@@ -304,7 +304,7 @@ class TicketHistoryController extends Controller
             'booked_by.required' => 'Nama pemesan wajib diisi.',
         ]);
 
-        $names = array_values(array_filter(array_map('trim', $validated['passenger_names'])));
+        $names = array_values(array_unique(array_filter(array_map('trim', $validated['passenger_names']))));
         $passengerName = implode(', ', $names);
 
         if (empty($validated['booked_by'])) {
@@ -453,7 +453,7 @@ class TicketHistoryController extends Controller
             'booked_by.required' => 'Nama pemesan wajib diisi.',
         ]);
 
-        $names = array_values(array_filter(array_map('trim', $validated['passenger_names'])));
+        $names = array_values(array_unique(array_filter(array_map('trim', $validated['passenger_names']))));
         $passengerName = implode(', ', $names);
 
         if (!Auth::user()->isAdmin()) {

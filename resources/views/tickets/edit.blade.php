@@ -63,9 +63,6 @@
                 <input type="hidden" name="origin" value="{{ old('origin', $ticket->origin) }}">
                 <input type="hidden" name="destination" value="{{ old('destination', $ticket->destination) }}">
                 <input type="hidden" name="transport_type" value="{{ old('transport_type', $ticket->transport_type) }}">
-                @foreach($ticket->passengers_list as $pName)
-                    <input type="hidden" name="passenger_names[]" value="{{ $pName }}">
-                @endforeach
                 <input type="hidden" name="amount" value="{{ old('amount', $ticket->amount) }}">
                 <input type="hidden" name="booked_by" value="{{ old('booked_by', $ticket->booked_by) }}">
                 <input type="hidden" name="booked_by_user_id" value="{{ old('booked_by_user_id', $ticket->booked_by_user_id) }}">

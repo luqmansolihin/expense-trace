@@ -549,20 +549,6 @@
                                 } catch(e){}
                             }
 
-                            // Re-initialize Alpine.js on the swapped main element
-                            if (window.Alpine) {
-                                delete mainEl._x_dataStack;
-                                setTimeout(() => {
-                                    try {
-                                        if (typeof Alpine.initTree === 'function') {
-                                            Alpine.initTree(mainEl);
-                                        }
-                                    } catch(e) {
-                                        console.warn('Alpine re-init:', e);
-                                    }
-                                }, 20);
-                            }
-
                             mainEl.scrollTo({ top: 0, behavior: 'instant' });
                             window.dispatchEvent(new CustomEvent('spa:loaded', { detail: { url: targetUrl } }));
                         } else {
