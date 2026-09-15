@@ -29,4 +29,9 @@ class BookingStatusLog extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return BookingHistory::getStatusBadgeClass($this->to_status);
+    }
 }

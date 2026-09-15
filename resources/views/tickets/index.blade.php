@@ -889,7 +889,7 @@
                                 </div>
                                 <div>
                                     <span class="text-xs text-slate-600 block">Status Pembayaran</span>
-                                    <span class="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full border" :class="selectedTicket.status_badge" x-text="selectedTicket.status"></span>
+                                    <span class="inline-block mt-1 px-3 py-1 text-xs font-bold rounded-full border shadow-xs" :class="selectedTicket.status_badge" x-text="selectedTicket.status"></span>
                                 </div>
                                 <div>
                                     <span class="text-xs text-slate-600 block">Harga / Biaya Tiket</span>

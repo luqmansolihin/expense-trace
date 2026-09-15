@@ -97,11 +97,16 @@ class BookingHistory extends Model
      */
     public function getStatusBadgeClassAttribute(): string
     {
-        return match ($this->status) {
-            'Lunas' => 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700',
-            'Belum Bayar' => 'bg-rose-100 text-rose-800 border-rose-300 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700',
-            'Dibatalkan' => 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700',
-            default => 'bg-gray-100 text-gray-800 border-gray-300',
+        return static::getStatusBadgeClass($this->status);
+    }
+
+    public static function getStatusBadgeClass(?string $status): string
+    {
+        return match ($status) {
+            'Lunas' => 'bg-emerald-100 text-emerald-900 border-emerald-300 font-bold',
+            'Belum Bayar' => 'bg-rose-100 text-rose-900 border-rose-300 font-bold',
+            'Dibatalkan' => 'bg-slate-200 text-slate-900 border-slate-300 font-bold',
+            default => 'bg-slate-100 text-slate-900 border-slate-300 font-bold',
         };
     }
 
