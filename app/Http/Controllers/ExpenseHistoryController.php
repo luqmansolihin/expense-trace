@@ -473,19 +473,19 @@ class ExpenseHistoryController extends Controller
 
             fputcsv($file, [
                 'Kode Invoice',
-                'Tanggal Biaya',
+                'Tgl Biaya',
                 'Nama / Rincian Biaya',
                 'Pemohon/Penerima',
-                'Pembayaran Oleh (Paid By)',
-                'Tanggal Bayar',
-                'Nominal Biaya (IDR)',
-                'Status Pembayaran',
+                'Pembayar',
+                'Tgl Bayar',
+                'Biaya (IDR)',
+                'Status',
                 'Catatan'
             ]);
 
             foreach ($expenses as $e) {
                 fputcsv($file, [
-                    $e->invoice_code,
+                    $e->invoice_code ?: '-',
                     $e->booking_date ? $e->booking_date->format('Y-m-d') : '',
                     $e->expense_name,
                     $e->booked_by,
