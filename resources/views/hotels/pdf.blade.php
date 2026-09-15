@@ -10,8 +10,8 @@
         }
         body {
             font-family: 'DejaVu Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #020617;
-            color: #f8fafc;
+            background-color: #ffffff;
+            color: #0f172a;
             margin: 0;
             padding: 10px;
             font-size: 11px;
@@ -20,10 +20,10 @@
         .container {
             max-width: 650px;
             margin: 0 auto;
-            background-color: #0f172a;
+            background-color: #ffffff;
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid #1e293b;
+            border: 1px solid #cbd5e1;
         }
         .header-table {
             width: 100%;
@@ -63,25 +63,25 @@
             text-transform: uppercase;
         }
         .badge-lunas {
-            background-color: #064e3b;
-            color: #34d399;
-            border: 1px solid #059669;
+            background-color: #d1fae5;
+            color: #064e3b;
+            border: 1px solid #6ee7b7;
         }
         .badge-belum-bayar {
-            background-color: #78350f;
-            color: #fcd34d;
-            border: 1px solid #d97706;
+            background-color: #ffe4e6;
+            color: #881337;
+            border: 1px solid #fca5a5;
         }
         .badge-dibatalkan {
-            background-color: #881337;
-            color: #fda4af;
-            border: 1px solid #e11d48;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
         }
         .dates-table {
             width: 100%;
             margin-top: 15px;
             padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             border-collapse: collapse;
         }
         .date-label {
@@ -99,18 +99,19 @@
         }
         .body-content {
             padding: 20px 24px;
+            background-color: #ffffff;
         }
         .section-box {
-            background-color: #1e293b;
+            background-color: #f8fafc;
             border-radius: 12px;
             padding: 12px 16px;
             margin-bottom: 12px;
-            border: 1px solid #334155;
+            border: 1px solid #e2e8f0;
         }
         .section-title {
             font-size: 10px;
             font-weight: bold;
-            color: #fbbf24;
+            color: #b45309;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -118,7 +119,7 @@
         .guest-item {
             font-size: 12px;
             font-weight: bold;
-            color: #f8fafc;
+            color: #0f172a;
             padding: 2px 0;
         }
         .grid-table {
@@ -132,38 +133,39 @@
         }
         .info-label {
             font-size: 9px;
-            color: #94a3b8;
+            color: #64748b;
             text-transform: uppercase;
+            font-weight: bold;
             display: block;
         }
         .info-value {
             font-size: 12px;
             font-weight: bold;
-            color: #f8fafc;
+            color: #0f172a;
             margin-top: 2px;
             display: block;
         }
         .info-value-emerald {
-            color: #34d399;
+            color: #047857;
             font-family: monospace;
             font-size: 14px;
         }
         .info-value-indigo {
-            color: #a5b4fc;
+            color: #4338ca;
         }
         .timeline-item {
             padding-left: 12px;
-            border-left: 2px solid #fbbf24;
+            border-left: 2px solid #d97706;
             margin-bottom: 8px;
         }
         .timeline-status {
             font-size: 11px;
             font-weight: bold;
-            color: #fbbf24;
+            color: #b45309;
         }
         .timeline-notes {
             font-size: 10px;
-            color: #cbd5e1;
+            color: #334155;
             margin-top: 1px;
         }
         .timeline-meta {
@@ -173,16 +175,16 @@
             margin-top: 1px;
         }
         .barcode-section {
-            background-color: #020617;
+            background-color: #f8fafc;
             padding: 14px;
             text-align: center;
-            border-top: 1px solid #1e293b;
+            border-top: 1px solid #e2e8f0;
         }
         .barcode-lines {
             font-family: monospace;
             font-size: 20px;
             letter-spacing: 5px;
-            color: #475569;
+            color: #334155;
             font-weight: bold;
         }
         .footer-text {
@@ -226,7 +228,7 @@
                             </td>
                             <td style="width: 24%; text-align: center; vertical-align: middle; font-size: 13px; color: #fef3c7; font-weight: bold;">
                                 {{ $hotel->night_count }} MALAM<br>
-                                <span style="font-size: 10px; color: #fbbf24;">({{ $hotel->room_count }} KAMAR)</span>
+                                <span style="font-size: 10px; color: #fef3c7;">({{ $hotel->room_count }} KAMAR)</span>
                             </td>
                             <td style="width: 38%; text-align: right; vertical-align: middle;">
                                 <span class="date-label">TANGGAL CHECK-OUT</span>
@@ -294,7 +296,7 @@
             @if($hotel->notes)
                 <div class="section-box">
                     <div class="section-title">CATATAN / KETERANGAN</div>
-                    <div style="color: #cbd5e1; font-style: italic;">{{ $hotel->notes }}</div>
+                    <div style="color: #334155; font-style: italic;">{{ $hotel->notes }}</div>
                 </div>
             @endif
 
@@ -318,7 +320,7 @@
         <!-- Barcode & Verification Footer -->
         <div class="barcode-section">
             <div class="barcode-lines">||||| ||| ||||||| ||| ||||| ||||</div>
-            <div class="footer-text">VERIFIED HISTORICAL HOTEL VOUCHER RECORD • {{ $hotel->booking_code ?: '-' }} • TICKETTRACE SYSTEM</div>
+            <div class="footer-text">VERIFIED HISTORICAL HOTEL VOUCHER RECORD • {{ $hotel->booking_code ?: '-' }} • EXPENSETRACE SYSTEM</div>
         </div>
     </div>
 
