@@ -176,6 +176,9 @@
                 @error('passenger_names')
                     <p class="text-rose-600 text-xs mt-2">{{ $message }}</p>
                 @enderror
+                @error('passenger_names.*')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <hr class="border-slate-200">
@@ -245,7 +248,7 @@
                             <label for="paid_by_user_id" class="block text-xs font-medium text-slate-700 mb-1.5">
                                 Linkkan dengan User Pembayar (Sistem)
                             </label>
-                            <select id="paid_by_user_id" name="paid_by_user_id" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-white text-slate-900 border border-slate-300">
+                            <select id="paid_by_user_id" name="paid_by_user_id" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-white text-slate-900 border border-slate-300 @error('paid_by_user_id') border-rose-500 @enderror">
                                 <option value="">-- Pilih User Pembayar --</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ old('paid_by_user_id', $ticket->paid_by_user_id) == $user->id ? 'selected' : '' }}>
@@ -253,6 +256,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('paid_by_user_id')
+                                <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="md:col-span-2">
@@ -312,7 +318,7 @@
                         <label for="attachment" class="block text-xs font-medium text-slate-700 mb-1.5">
                             Ganti File Bukti / Nota Tiket <span class="text-slate-500">(Opsional)</span>
                         </label>
-                        <input type="file" id="attachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png" {{ $isDataLocked ? 'disabled' : '' }} class="w-full glass-input rounded-xl px-3 py-2 text-xs bg-white text-slate-700 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-100 file:text-sky-800 hover:file:bg-sky-200 border border-slate-300">
+                        <input type="file" id="attachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png" {{ $isDataLocked ? 'disabled' : '' }} class="w-full glass-input rounded-xl px-3 py-2 text-xs bg-white text-slate-700 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-100 file:text-sky-800 hover:file:bg-sky-200 border border-slate-300 @error('attachment') border-rose-500 @enderror">
                         @if($ticket->attachment_path)
                             <p class="text-xs text-sky-700 mt-1">
                                 <i class="fa-solid fa-paperclip mr-1"></i> File saat ini: <a href="{{ asset('storage/' . $ticket->attachment_path) }}" target="_blank" class="underline">Lihat Lampiran</a>
@@ -331,7 +337,10 @@
                 <label for="notes" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Catatan / Keterangan Tambahan
                 </label>
-                <textarea id="notes" name="notes" rows="3" {{ $isDataLocked ? 'disabled' : '' }} class="w-full glass-input rounded-xl p-4 text-sm disabled:opacity-60 disabled:cursor-not-allowed">{{ old('notes', $ticket->notes) }}</textarea>
+                <textarea id="notes" name="notes" rows="3" {{ $isDataLocked ? 'disabled' : '' }} class="w-full glass-input rounded-xl p-4 text-sm disabled:opacity-60 disabled:cursor-not-allowed @error('notes') border-rose-500 @enderror">{{ old('notes', $ticket->notes) }}</textarea>
+                @error('notes')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Tombol Batal & Perbarui Tiket -->

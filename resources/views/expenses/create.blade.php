@@ -23,18 +23,7 @@
         <form action="{{ route('expenses.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
-            @if ($errors->any())
-                <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
-                    <div class="font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Terdapat kesalahan pengisian formulir:
-                    </div>
-                    <ul class="list-disc list-inside space-y-0.5 pl-2">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+
 
             <!-- Section 1: Informasi Transaksi Biaya -->
             <div>
@@ -44,17 +33,26 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Biaya <span class="text-rose-600">*</span></label>
-                        <input type="date" name="booking_date" value="{{ old('booking_date', date('Y-m-d')) }}" required onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer">
+                        <input type="date" name="booking_date" value="{{ old('booking_date', date('Y-m-d')) }}" required onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer @error('booking_date') border-rose-500 @enderror">
+                        @error('booking_date')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Kode Invoice <span class="text-rose-600">*</span></label>
-                        <input type="text" name="invoice_code" value="{{ old('invoice_code') }}" required placeholder="Contoh: INV-EXP-2026-001" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono">
+                        <input type="text" name="invoice_code" value="{{ old('invoice_code') }}" required placeholder="Contoh: INV-EXP-2026-001" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono @error('invoice_code') border-rose-500 @enderror">
+                        @error('invoice_code')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama / Rincian Biaya <span class="text-rose-600">*</span></label>
-                        <input type="text" name="expense_name" value="{{ old('expense_name') }}" required placeholder="Contoh: Biaya Swab PCR / Transportasi Lokal / Extra Bagasi" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm">
+                        <input type="text" name="expense_name" value="{{ old('expense_name') }}" required placeholder="Contoh: Biaya Swab PCR / Transportasi Lokal / Extra Bagasi" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm @error('expense_name') border-rose-500 @enderror">
+                        @error('expense_name')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -70,12 +68,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama Pemohon/Penerima <span class="text-rose-600">*</span></label>
-                        <input type="text" name="booked_by" value="{{ old('booked_by', '') }}" required placeholder="Contoh: Martha" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm">
+                        <input type="text" name="booked_by" value="{{ old('booked_by', '') }}" required placeholder="Contoh: Martha" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm @error('booked_by') border-rose-500 @enderror">
+                        @error('booked_by')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Nominal Biaya (IDR) <span class="text-rose-600">*</span></label>
-                        <input type="number" step="0.01" min="0" name="amount" value="{{ old('amount') }}" required placeholder="Contoh: 500000" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono">
+                        <input type="number" step="0.01" min="0" name="amount" value="{{ old('amount') }}" required placeholder="Contoh: 500000" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono @error('amount') border-rose-500 @enderror">
+                        @error('amount')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -88,12 +92,15 @@
                             </div>
                             <input type="hidden" name="status" value="Belum Bayar">
                         @else
-                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300">
+                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300 @error('status') border-rose-500 @enderror">
                                 @foreach($statusOptions as $opt)
                                     <option value="{{ $opt }}" {{ old('status', 'Belum Bayar') == $opt ? 'selected' : '' }}>{{ $opt }}</option>
                                 @endforeach
                             </select>
                         @endif
+                        @error('status')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -104,12 +111,18 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-700 mb-1.5">File Lampiran Bukti / Invoice (PDF / JPG / PNG)</label>
-                    <input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="glass-input w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200">
+                    <input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="glass-input w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200 @error('attachment') border-rose-500 @enderror">
+                    @error('attachment')
+                        <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label class="block text-xs font-medium text-slate-700 mb-1.5">Catatan Tambahan</label>
-                    <textarea name="notes" rows="3" placeholder="Catatan seperti keperluan dinas, nomor resi, rincian item, dsb..." class="glass-input w-full px-4 py-2.5 rounded-xl text-sm">{{ old('notes') }}</textarea>
+                    <textarea name="notes" rows="3" placeholder="Catatan seperti keperluan dinas, nomor resi, rincian item, dsb..." class="glass-input w-full px-4 py-2.5 rounded-xl text-sm @error('notes') border-rose-500 @enderror">{{ old('notes') }}</textarea>
+                    @error('notes')
+                        <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 

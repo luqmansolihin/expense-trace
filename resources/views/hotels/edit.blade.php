@@ -77,18 +77,7 @@
                 <input type="hidden" name="booked_by_user_id" value="{{ old('booked_by_user_id', $hotel->booked_by_user_id) }}">
             @endif
 
-            @if ($errors->any())
-                <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
-                    <div class="font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Terdapat kesalahan pengisian formulir:
-                    </div>
-                    <ul class="list-disc list-inside space-y-0.5 pl-2">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+
 
             <!-- Section 1: Informasi Reservasi & Hotel -->
             <div>
@@ -98,39 +87,60 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-5">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Booking <span class="text-rose-600">*</span></label>
-                        <input type="date" name="booking_date" value="{{ old('booking_date', $hotel->booking_date ? $hotel->booking_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="date" name="booking_date" value="{{ old('booking_date', $hotel->booking_date ? $hotel->booking_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed @error('booking_date') border-rose-500 @enderror">
+                        @error('booking_date')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Kode Booking Hotel <span class="text-slate-500">(Opsional)</span></label>
-                        <input type="text" name="booking_code" value="{{ old('booking_code', $hotel->booking_code) }}" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="text" name="booking_code" value="{{ old('booking_code', $hotel->booking_code) }}" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed @error('booking_code') border-rose-500 @enderror">
+                        @error('booking_code')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Kode Invoice <span class="text-rose-600">*</span></label>
-                        <input type="text" name="invoice_code" value="{{ old('invoice_code', $hotel->invoice_code) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="text" name="invoice_code" value="{{ old('invoice_code', $hotel->invoice_code) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed @error('invoice_code') border-rose-500 @enderror">
+                        @error('invoice_code')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2"></div>
 
                     <div class="md:col-span-3">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama Hotel <span class="text-rose-600">*</span></label>
-                        <input type="text" name="hotel_name" value="{{ old('hotel_name', $hotel->hotel_name) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="text" name="hotel_name" value="{{ old('hotel_name', $hotel->hotel_name) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed @error('hotel_name') border-rose-500 @enderror">
+                        @error('hotel_name')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-1">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Jumlah Kamar <span class="text-rose-600">*</span></label>
-                        <input type="number" name="room_count" value="{{ old('room_count', $hotel->room_count) }}" min="1" required {{ $isDataLocked ? 'disabled' : '' }} placeholder="Jumlah kamar..." class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="number" name="room_count" value="{{ old('room_count', $hotel->room_count) }}" min="1" required {{ $isDataLocked ? 'disabled' : '' }} placeholder="Jumlah kamar..." class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed @error('room_count') border-rose-500 @enderror">
+                        @error('room_count')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Check-in <span class="text-rose-600">*</span></label>
-                        <input type="date" name="check_in_date" value="{{ old('check_in_date', $hotel->check_in_date ? $hotel->check_in_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="date" name="check_in_date" value="{{ old('check_in_date', $hotel->check_in_date ? $hotel->check_in_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed @error('check_in_date') border-rose-500 @enderror">
+                        @error('check_in_date')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Check-out <span class="text-rose-600">*</span></label>
-                        <input type="date" name="check_out_date" value="{{ old('check_out_date', $hotel->check_out_date ? $hotel->check_out_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="date" name="check_out_date" value="{{ old('check_out_date', $hotel->check_out_date ? $hotel->check_out_date->format('Y-m-d') : '') }}" required {{ $isDataLocked ? 'disabled' : '' }} onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed @error('check_out_date') border-rose-500 @enderror">
+                        @error('check_out_date')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -156,6 +166,12 @@
                         </div>
                     </template>
                 </div>
+                @error('guest_names')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                @error('guest_names.*')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
 
                 @if(!$isDataLocked)
                     <div class="mt-3">
@@ -177,8 +193,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Nama Pemesan (Booked By) <span class="text-rose-600">*</span></label>
-                        <input type="text" name="booked_by" value="{{ old('booked_by', $hotel->booked_by) }}" required placeholder="Contoh: Martha" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="text" name="booked_by" value="{{ old('booked_by', $hotel->booked_by) }}" required placeholder="Contoh: Martha" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed @error('booked_by') border-rose-500 @enderror">
                         <input type="hidden" name="booked_by_user_id" value="{{ old('booked_by_user_id', $hotel->booked_by_user_id ?: Auth::id()) }}">
+                        @error('booked_by')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     @if($isFinance)
@@ -201,22 +220,31 @@
 
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Pembayaran <span class="text-slate-500">(Wajib jika status Lunas)</span></label>
-                            <input type="date" name="payment_date" value="{{ old('payment_date', $hotel->payment_date ? $hotel->payment_date->format('Y-m-d') : '') }}" onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer">
+                            <input type="date" name="payment_date" value="{{ old('payment_date', $hotel->payment_date ? $hotel->payment_date->format('Y-m-d') : '') }}" onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer @error('payment_date') border-rose-500 @enderror">
+                            @error('payment_date')
+                                <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     @else
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1.5">Pembayaran Oleh</label>
-                            <input type="text" name="paid_by" value="{{ old('paid_by', $hotel->paid_by) }}" placeholder="Contoh: PT Corporate Finance" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm">
+                            <input type="text" name="paid_by" value="{{ old('paid_by', $hotel->paid_by) }}" placeholder="Contoh: PT Corporate Finance" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm @error('paid_by') border-rose-500 @enderror">
+                            @error('paid_by')
+                                <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1.5">Tanggal Bayar</label>
-                            <input type="date" name="payment_date" value="{{ old('payment_date', $hotel->payment_date ? $hotel->payment_date->format('Y-m-d') : '') }}" onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer">
+                            <input type="date" name="payment_date" value="{{ old('payment_date', $hotel->payment_date ? $hotel->payment_date->format('Y-m-d') : '') }}" onclick="this.showPicker?.()" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer @error('payment_date') border-rose-500 @enderror">
+                            @error('payment_date')
+                                <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1.5">Linkkan dengan User Pembayar (Sistem)</label>
-                            <select name="paid_by_user_id" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300">
+                            <select name="paid_by_user_id" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300 @error('paid_by_user_id') border-rose-500 @enderror">
                                 <option value="">-- Pilih User Pembayar --</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ old('paid_by_user_id', $hotel->paid_by_user_id) == $user->id ? 'selected' : '' }}>
@@ -224,18 +252,24 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('paid_by_user_id')
+                                <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     @endif
 
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Biaya Hotel (IDR) <span class="text-rose-600">*</span></label>
-                        <input type="number" step="0.01" min="0" name="amount" value="{{ old('amount', $hotel->amount) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed">
+                        <input type="number" step="0.01" min="0" name="amount" value="{{ old('amount', $hotel->amount) }}" required {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono disabled:opacity-60 disabled:cursor-not-allowed @error('amount') border-rose-500 @enderror">
+                        @error('amount')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1.5">Status Pembayaran <span class="text-rose-600">*</span></label>
                         @if($isFinance)
-                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300">
+                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300 @error('status') border-rose-500 @enderror">
                                 @if($hotel->status === 'Lunas')
                                     <option value="Lunas" {{ old('status', $hotel->status) == 'Lunas' ? 'selected' : '' }}>Lunas (Status Saat Ini)</option>
                                     <option value="Dibatalkan" {{ old('status', $hotel->status) == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
@@ -246,12 +280,15 @@
                                 @endif
                             </select>
                         @else
-                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300">
+                            <select name="status" x-model="status" required class="glass-input w-full px-4 py-2.5 rounded-xl text-sm bg-white text-slate-900 border border-slate-300 @error('status') border-rose-500 @enderror">
                                 @foreach($statusOptions as $opt)
                                     <option value="{{ $opt }}" {{ old('status', $hotel->status) === $opt ? 'selected' : '' }}>{{ $opt }}</option>
                                 @endforeach
                             </select>
                         @endif
+                        @error('status')
+                            <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -262,7 +299,10 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-700 mb-1.5">File Lampiran Bukti / Invoice (Kosongkan jika tidak diubah)</label>
-                    <input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="glass-input w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200">
+                    <input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="glass-input w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 @error('attachment') border-rose-500 @enderror">
+                    @error('attachment')
+                        <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                     @if($hotel->attachment_path)
                         <div class="mt-2 text-xs">
                             <a href="{{ asset('storage/' . $hotel->attachment_path) }}" target="_blank" class="text-amber-700 hover:underline flex items-center gap-1">
@@ -274,7 +314,10 @@
 
                 <div>
                     <label class="block text-xs font-medium text-slate-700 mb-1.5">Catatan Tambahan</label>
-                    <textarea name="notes" rows="3" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed">{{ old('notes', $hotel->notes) }}</textarea>
+                    <textarea name="notes" rows="3" {{ $isDataLocked ? 'disabled' : '' }} class="glass-input w-full px-4 py-2.5 rounded-xl text-sm disabled:opacity-60 disabled:cursor-not-allowed @error('notes') border-rose-500 @enderror">{{ old('notes', $hotel->notes) }}</textarea>
+                    @error('notes')
+                        <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 

@@ -122,6 +122,9 @@
                 @error('passenger_names')
                     <p class="text-rose-600 text-xs mt-2">{{ $message }}</p>
                 @enderror
+                @error('passenger_names.*')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <hr class="border-slate-200">
@@ -187,7 +190,7 @@
                         <label for="attachment" class="block text-xs font-medium text-slate-700 mb-1.5">
                             Upload Bukti / Nota Tiket <span class="text-slate-500">(PDF, JPG, PNG max 5MB)</span>
                         </label>
-                        <input type="file" id="attachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="w-full max-w-full glass-input rounded-xl px-3 py-2 text-xs bg-white text-slate-700 file:mr-2 sm:file:mr-4 file:py-1 file:px-2.5 sm:file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-100 file:text-sky-800 hover:file:bg-sky-200 truncate border border-slate-300">
+                        <input type="file" id="attachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="w-full max-w-full glass-input rounded-xl px-3 py-2 text-xs bg-white text-slate-700 file:mr-2 sm:file:mr-4 file:py-1 file:px-2.5 sm:file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-100 file:text-sky-800 hover:file:bg-sky-200 truncate border border-slate-300 @error('attachment') border-rose-500 @enderror">
                         @error('attachment')
                             <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -201,7 +204,10 @@
                 <label for="notes" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Catatan / Keterangan Tambahan
                 </label>
-                <textarea id="notes" name="notes" rows="3" placeholder="Informasi tambahan seperti nomor kursi, kelas penerbangan, atau keperluan dinas..." class="w-full glass-input rounded-xl p-4 text-sm placeholder-slate-400">{{ old('notes') }}</textarea>
+                <textarea id="notes" name="notes" rows="3" placeholder="Informasi tambahan seperti nomor kursi, kelas penerbangan, atau keperluan dinas..." class="w-full glass-input rounded-xl p-4 text-sm placeholder-slate-400 @error('notes') border-rose-500 @enderror">{{ old('notes') }}</textarea>
+                @error('notes')
+                    <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-4">
