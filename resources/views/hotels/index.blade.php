@@ -11,7 +11,7 @@
         loading: false,
         hasMore: {{ $hotels->hasMorePages() ? 'true' : 'false' }},
         sorts: {{ json_encode($sorts ?? []) }},
-        hasFilters: {{ ($search || $searchCode || $searchInvoice || $searchHotel || $searchGuest || $searchBooker || $searchPayer || !empty($status) || $dateAfter || $dateBefore || $dateOn || $checkInFrom || $checkInTo || $checkInOn || $checkOutFrom || $checkOutTo || $checkOutOn || $nightCountMin || $nightCountMax || $nightCountEq || $payDateAfter || $payDateBefore || $payDateOn || $amountMin || $amountMax || $amountEq || $guestCountMin || $guestCountMax || $guestCountEq) ? 'true' : 'false' }},
+        hasFilters: {{ ($search || $searchCode || $searchInvoice || $searchHotel || $searchGuest || $searchBooker || $searchPayer || !empty($status) || $dateAfter || $dateBefore || $dateOn || $checkInFrom || $checkInTo || $checkInOn || $checkOutFrom || $checkOutTo || $checkOutOn || $nightCountMin || $nightCountMax || $nightCountEq || $roomCountMin || $roomCountMax || $roomCountEq || $payDateAfter || $payDateBefore || $payDateOn || $amountMin || $amountMax || $amountEq || $guestCountMin || $guestCountMax || $guestCountEq) ? 'true' : 'false' }},
         activeFilters: {
             code: {{ !empty($searchCode) ? 'true' : 'false' }},
             invoice: {{ !empty($searchInvoice) ? 'true' : 'false' }},
@@ -20,6 +20,7 @@
             check_in: {{ ($checkInFrom || $checkInTo || $checkInOn) ? 'true' : 'false' }},
             check_out: {{ ($checkOutFrom || $checkOutTo || $checkOutOn) ? 'true' : 'false' }},
             night_count: {{ ($nightCountMin || $nightCountMax || $nightCountEq) ? 'true' : 'false' }},
+            room_count: {{ ($roomCountMin || $roomCountMax || $roomCountEq) ? 'true' : 'false' }},
             guest: {{ !empty($searchGuest) ? 'true' : 'false' }},
             guest_count: {{ ($guestCountMin || $guestCountMax || $guestCountEq) ? 'true' : 'false' }},
             booker: {{ !empty($searchBooker) ? 'true' : 'false' }},
@@ -43,6 +44,7 @@
             this.activeFilters.check_in = !!((formData.get('check_in_from') && formData.get('check_in_from').trim()) || (formData.get('check_in_to') && formData.get('check_in_to').trim()) || (formData.get('check_in_on') && formData.get('check_in_on').trim()));
             this.activeFilters.check_out = !!((formData.get('check_out_from') && formData.get('check_out_from').trim()) || (formData.get('check_out_to') && formData.get('check_out_to').trim()) || (formData.get('check_out_on') && formData.get('check_out_on').trim()));
             this.activeFilters.night_count = !!((formData.get('night_count_min') && formData.get('night_count_min').trim()) || (formData.get('night_count_max') && formData.get('night_count_max').trim()) || (formData.get('night_count_eq') && formData.get('night_count_eq').trim()));
+            this.activeFilters.room_count = !!((formData.get('room_count_min') && formData.get('room_count_min').trim()) || (formData.get('room_count_max') && formData.get('room_count_max').trim()) || (formData.get('room_count_eq') && formData.get('room_count_eq').trim()));
             this.activeFilters.guest = !!(formData.get('search_guest') && formData.get('search_guest').trim());
             this.activeFilters.guest_count = !!((formData.get('guest_count_min') && formData.get('guest_count_min').trim()) || (formData.get('guest_count_max') && formData.get('guest_count_max').trim()) || (formData.get('guest_count_eq') && formData.get('guest_count_eq').trim()));
             this.activeFilters.booker = !!(formData.get('search_booker') && formData.get('search_booker').trim());
@@ -391,7 +393,9 @@
                                      x-data="{
                                          from: '{{ $checkInFrom ?? '' }}',
                                          to: '{{ $checkInTo ?? '' }}',
-                                         on: '{{ $checkInOn ?? '' }}'
+                                         on: '{{ $checkInOn ?? '' }}',
+                                         onAfterBeforeChange() { if (this.from || this.to) { this.on = ''; } },
+                                         onOnChange() { if (this.on) { this.from = ''; this.to = ''; } }
                                      }">
                                     <div class="text-xs font-semibold text-slate-800 border-b border-slate-100 pb-1.5 flex items-center justify-between">
                                         <span>Filter Tanggal Check In</span>
@@ -400,11 +404,15 @@
                                     <div class="space-y-2.5">
                                         <div>
                                             <label class="block text-[11px] font-medium text-slate-600 mb-1">Dari Check In:</label>
-                                            <input type="date" name="check_in_from" x-model="from" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                            <input type="date" name="check_in_from" x-model="from" @change="onAfterBeforeChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
                                         </div>
                                         <div>
                                             <label class="block text-[11px] font-medium text-slate-600 mb-1">Sampai Check In:</label>
-                                            <input type="date" name="check_in_to" x-model="to" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                            <input type="date" name="check_in_to" x-model="to" @change="onAfterBeforeChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                        </div>
+                                        <div class="pt-1 border-t border-slate-100">
+                                            <label class="block text-[11px] font-medium text-slate-600 mb-1">Tepat Pada Tanggal:</label>
+                                            <input type="date" name="check_in_on" x-model="on" @change="onOnChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px]">
@@ -437,7 +445,9 @@
                                      x-data="{
                                          from: '{{ $checkOutFrom ?? '' }}',
                                          to: '{{ $checkOutTo ?? '' }}',
-                                         on: '{{ $checkOutOn ?? '' }}'
+                                         on: '{{ $checkOutOn ?? '' }}',
+                                         onAfterBeforeChange() { if (this.from || this.to) { this.on = ''; } },
+                                         onOnChange() { if (this.on) { this.from = ''; this.to = ''; } }
                                      }">
                                     <div class="text-xs font-semibold text-slate-800 border-b border-slate-100 pb-1.5 flex items-center justify-between">
                                         <span>Filter Tanggal Check Out</span>
@@ -446,11 +456,15 @@
                                     <div class="space-y-2.5">
                                         <div>
                                             <label class="block text-[11px] font-medium text-slate-600 mb-1">Dari Check Out:</label>
-                                            <input type="date" name="check_out_from" x-model="from" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                            <input type="date" name="check_out_from" x-model="from" @change="onAfterBeforeChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
                                         </div>
                                         <div>
                                             <label class="block text-[11px] font-medium text-slate-600 mb-1">Sampai Check Out:</label>
-                                            <input type="date" name="check_out_to" x-model="to" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                            <input type="date" name="check_out_to" x-model="to" @change="onAfterBeforeChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
+                                        </div>
+                                        <div class="pt-1 border-t border-slate-100">
+                                            <label class="block text-[11px] font-medium text-slate-600 mb-1">Tepat Pada Tanggal:</label>
+                                            <input type="date" name="check_out_on" x-model="on" @change="onOnChange()" onclick="this.showPicker?.()" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono cursor-pointer">
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px]">
@@ -513,18 +527,55 @@
                             </th>
 
                             <!-- 7b. Jml Kamar -->
-                            <th class="py-1 px-2 text-center whitespace-nowrap border-r border-slate-200 transition-colors">
-                                <button type="button" @click="toggleSort('room_count')" class="flex items-center justify-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort w-full" :class="getSortIndex('room_count') !== -1 ? 'text-amber-600 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Jumlah Kamar">
-                                    <span>Kamar</span>
-                                    <template x-if="getSortIndex('room_count') === -1">
-                                        <i class="fa-solid fa-sort text-slate-400 text-[10px] group-hover/sort:text-slate-600 transition-colors"></i>
-                                    </template>
-                                    <template x-if="getSortIndex('room_count') !== -1">
-                                        <span class="inline-flex items-center gap-0.5 text-amber-600 font-bold text-[10px]">
-                                            <i class="fa-solid" :class="getSortDir('room_count') === 'asc' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'"></i>
-                                        </span>
-                                    </template>
-                                </button>
+                            <th class="py-1 px-2 text-center whitespace-nowrap relative border-r border-slate-200 transition-colors" :class="activeFilters.room_count ? 'bg-amber-100/80 border-b-2 border-b-amber-600 text-amber-900' : ''" @click.outside="if (openPop === 'room_count') openPop = null">
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <button type="button" @click="toggleSort('room_count')" class="flex items-center gap-1 font-bold transition-colors cursor-pointer select-none group/sort" :class="getSortIndex('room_count') !== -1 ? 'text-amber-600 font-extrabold' : 'text-slate-700 hover:text-slate-900'" title="Urutkan Jumlah Kamar">
+                                        <span>Kamar</span>
+                                        <template x-if="getSortIndex('room_count') === -1">
+                                            <i class="fa-solid fa-sort text-slate-400 text-[10px] group-hover/sort:text-slate-600 transition-colors"></i>
+                                        </template>
+                                        <template x-if="getSortIndex('room_count') !== -1">
+                                            <span class="inline-flex items-center gap-0.5 text-amber-600 font-bold text-[10px]">
+                                                <i class="fa-solid" :class="getSortDir('room_count') === 'asc' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'"></i>
+                                                <span x-show="sorts.length > 1" class="text-[8px] bg-amber-100 px-1 py-0.2 rounded-full border border-amber-300 text-amber-700 font-mono" x-text="getSortIndex('room_count') + 1"></span>
+                                            </span>
+                                        </template>
+                                    </button>
+                                    <button type="button" @click="openPop = (openPop === 'room_count' ? null : 'room_count')" class="p-1 rounded transition-colors" :class="activeFilters.room_count ? 'text-amber-700 bg-amber-100' : 'text-slate-400 hover:text-slate-600'" title="Filter Jumlah Kamar">
+                                        <i class="fa-solid" :class="activeFilters.room_count ? 'fa-filter text-amber-600 text-[11px]' : 'fa-caret-down text-xs'"></i>
+                                    </button>
+                                </div>
+                                <div x-show="openPop === 'room_count'" x-cloak x-transition class="absolute z-50 left-0 mt-2 p-3.5 bg-white border border-slate-200 rounded-xl shadow-xl space-y-3 text-left font-normal normal-case min-w-[250px]"
+                                     x-data="{
+                                         min: '{{ $roomCountMin ?? '' }}',
+                                         max: '{{ $roomCountMax ?? '' }}',
+                                         eq: '{{ $roomCountEq ?? '' }}',
+                                         onMinMaxChange() { if (this.min || this.max) { this.eq = ''; } },
+                                         onEqChange() { if (this.eq) { this.min = ''; this.max = ''; } }
+                                     }">
+                                    <div class="text-xs font-semibold text-slate-800 border-b border-slate-100 pb-1.5 flex items-center justify-between">
+                                        <span>Filter Jumlah Kamar</span>
+                                        <i class="fa-solid fa-bed text-amber-600"></i>
+                                    </div>
+                                    <div class="space-y-2.5">
+                                        <div>
+                                            <label class="block text-[11px] font-medium text-slate-600 mb-1">&ge; Lebih Besar Sama Dengan:</label>
+                                            <input type="number" name="room_count_min" x-model="min" @input="onMinMaxChange()" placeholder="Contoh: 1" step="1" min="1" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[11px] font-medium text-slate-600 mb-1">&le; Lebih Kecil Sama Dengan:</label>
+                                            <input type="number" name="room_count_max" x-model="max" @input="onMinMaxChange()" placeholder="Contoh: 5" step="1" min="1" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono">
+                                        </div>
+                                        <div class="pt-1 border-t border-slate-100">
+                                            <label class="block text-[11px] font-medium text-slate-600 mb-1">= Sama Dengan:</label>
+                                            <input type="number" name="room_count_eq" x-model="eq" @input="onEqChange()" placeholder="Contoh: 2" step="1" min="1" class="w-full h-8 rounded-lg px-2.5 text-xs bg-slate-50 border border-slate-200 text-slate-800 font-mono">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px]">
+                                        <button type="button" @click="min = ''; max = ''; eq = ''" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs">Clear</button>
+                                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold shadow">Terapkan</button>
+                                    </div>
+                                </div>
                             </th>
 
                             <!-- 8. Tamu -->

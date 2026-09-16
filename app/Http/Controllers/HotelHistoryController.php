@@ -58,6 +58,11 @@ class HotelHistoryController extends Controller
         $nightCountMax = $request->input('night_count_max');
         $nightCountEq = $request->input('night_count_eq');
 
+        // Room Count filters
+        $roomCountMin = $request->input('room_count_min');
+        $roomCountMax = $request->input('room_count_max');
+        $roomCountEq = $request->input('room_count_eq');
+
         // Date filters for Booking Date
         $dateAfter = $request->input('date_after', $request->input('date_from'));
         $dateBefore = $request->input('date_before', $request->input('date_to'));
@@ -133,6 +138,22 @@ class HotelHistoryController extends Controller
                     }
                     if ($nightCountMax !== null && $nightCountMax !== '') {
                         $h->whereRaw("{$expr} <= ?", [(int) $nightCountMax]);
+                    }
+                }
+            });
+        }
+
+        // Apply Room Count Filters
+        if ($roomCountMin !== null && $roomCountMin !== '' || $roomCountMax !== null && $roomCountMax !== '' || $roomCountEq !== null && $roomCountEq !== '') {
+            $query->whereHas('hotelDetail', function ($h) use ($roomCountMin, $roomCountMax, $roomCountEq) {
+                if ($roomCountEq !== null && $roomCountEq !== '') {
+                    $h->where('room_count', '=', (int) $roomCountEq);
+                } else {
+                    if ($roomCountMin !== null && $roomCountMin !== '') {
+                        $h->where('room_count', '>=', (int) $roomCountMin);
+                    }
+                    if ($roomCountMax !== null && $roomCountMax !== '') {
+                        $h->where('room_count', '<=', (int) $roomCountMax);
                     }
                 }
             });
@@ -248,6 +269,9 @@ class HotelHistoryController extends Controller
                 'nightCountMin' => $nightCountMin,
                 'nightCountMax' => $nightCountMax,
                 'nightCountEq' => $nightCountEq,
+                'roomCountMin' => $roomCountMin,
+                'roomCountMax' => $roomCountMax,
+                'roomCountEq' => $roomCountEq,
                 'guestCountMin' => $guestCountMin,
                 'guestCountMax' => $guestCountMax,
                 'guestCountEq' => $guestCountEq,
