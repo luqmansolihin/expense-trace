@@ -357,6 +357,11 @@
                         @include('users._rows', ['users' => $users])
                     </tbody>
                 </table>
+
+                <!-- Infinite Loading Indicator -->
+                <div x-show="loading" class="p-4 text-center text-purple-700 font-semibold text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Memuat data akun pengguna...
+                </div>
             </div>
         </form>
     </div>

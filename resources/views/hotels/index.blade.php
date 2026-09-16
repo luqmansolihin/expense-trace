@@ -874,6 +874,11 @@
                         @include('hotels._rows', ['hotels' => $hotels])
                     </tbody>
                 </table>
+
+                <!-- Infinite Loading Indicator -->
+                <div x-show="loading" class="p-4 text-center text-sky-700 font-semibold text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Memuat data histori hotel...
+                </div>
             </div>
         </form>
     </div>

@@ -796,6 +796,11 @@
                         @include('tickets._rows', ['tickets' => $tickets])
                     </tbody>
                 </table>
+
+                <!-- Infinite Loading Indicator -->
+                <div x-show="loading" class="p-4 text-center text-indigo-700 font-semibold text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Memuat data histori tiket...
+                </div>
             </div>
         </form>
     </div>
