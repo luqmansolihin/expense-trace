@@ -137,7 +137,8 @@ class TicketHistoryController extends Controller
         $sorts = [];
 
         $allowedSorts = [
-            'ticket_code' => 'booking_code',
+            'id' => 'id',
+            'ticket_code' => 'ticket_code',
             'invoice_code' => 'invoice_code',
             'ticket_date' => 'booking_date',
             'origin' => 'origin',
@@ -646,7 +647,7 @@ class TicketHistoryController extends Controller
     {
         $filtered = $this->buildFilteredQuery($request);
         $query = $filtered['query'];
-        $tickets = $query->orderBy('booking_date', 'desc')->get();
+        $tickets = $query->get();
 
         $filename = "histori_tiket_" . date('Ymd_His') . ".csv";
 

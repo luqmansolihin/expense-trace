@@ -193,6 +193,7 @@ class HotelHistoryController extends Controller
         $sorts = [];
 
         $allowedSorts = [
+            'id' => 'id',
             'booking_code' => 'booking_code',
             'invoice_code' => 'invoice_code',
             'booking_date' => 'booking_date',
@@ -710,7 +711,7 @@ class HotelHistoryController extends Controller
     {
         $filtered = $this->buildFilteredQuery($request);
         $query = $filtered['query'];
-        $hotels = $query->orderBy('booking_date', 'desc')->get();
+        $hotels = $query->get();
 
         $filename = "histori_hotel_" . date('Ymd_His') . ".csv";
 

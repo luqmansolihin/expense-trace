@@ -78,12 +78,12 @@ class ExpenseHistoryController extends Controller
         }
 
         // Sorting
-        $sortField = $request->input('sort', 'booking_date');
+        $sortField = $request->input('sort', 'id');
         $sortDir = strtolower($request->input('direction', 'desc')) === 'asc' ? 'asc' : 'desc';
 
-        $allowedSorts = ['booking_date', 'invoice_code', 'booking_code', 'amount', 'status', 'created_at', 'payment_date'];
+        $allowedSorts = ['id', 'booking_date', 'invoice_code', 'booking_code', 'amount', 'status', 'created_at', 'payment_date'];
         if (!in_array($sortField, $allowedSorts)) {
-            $sortField = 'booking_date';
+            $sortField = 'id';
         }
 
         $query->orderBy($sortField, $sortDir);
@@ -458,7 +458,7 @@ class ExpenseHistoryController extends Controller
     {
         $filtered = $this->buildFilteredQuery($request);
         $query = $filtered['query'];
-        $expenses = $query->orderBy('booking_date', 'desc')->get();
+        $expenses = $query->get();
 
         $filename = "histori_biaya_lain_lain_" . date('Ymd_His') . ".csv";
 
