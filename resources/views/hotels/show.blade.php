@@ -282,6 +282,15 @@
                                 @endforeach
                             </div>
                         @endif
+
+                        @if($hotel->attachment_path)
+                            <div class="pt-2">
+                                <a href="{{ asset('storage/' . $hotel->attachment_path) }}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold transition-colors w-full justify-center">
+                                    <i class="fa-solid fa-paperclip"></i>
+                                    <span>Lihat Dokumen / Bukti Lampiran Original</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

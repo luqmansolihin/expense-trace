@@ -957,7 +957,6 @@
                                 </div>
                             </template>
 
-                            <!-- Activity Timeline Logs in HTML Preview -->
                             <template x-if="selectedHotel.status_logs && selectedHotel.status_logs.length > 0">
                                 <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
                                     <span class="text-xs font-bold text-slate-500 block uppercase tracking-wider mb-2">Riwayat Log Aktivitas Status</span>
@@ -971,6 +970,15 @@
                                             <div class="text-[10px] text-slate-400 font-mono mt-1" x-text="log.user_name + ' (' + log.user_role + ')'"></div>
                                         </div>
                                     </template>
+                                </div>
+                            </template>
+
+                            <template x-if="selectedHotel.attachment_url">
+                                <div class="pt-2">
+                                    <a :href="selectedHotel.attachment_url" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold transition-colors w-full justify-center">
+                                        <i class="fa-solid fa-paperclip"></i>
+                                        <span>Lihat Dokumen / Bukti Lampiran Original</span>
+                                    </a>
                                 </div>
                             </template>
                         </div>
