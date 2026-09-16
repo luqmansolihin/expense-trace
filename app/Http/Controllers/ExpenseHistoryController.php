@@ -77,16 +77,63 @@ class ExpenseHistoryController extends Controller
             }
         }
 
-        // Sorting
-        $sortField = $request->input('sort', 'id');
-        $sortDir = strtolower($request->input('direction', 'desc')) === 'asc' ? 'asc' : 'desc';
+        // Multi-column sorting logic
+        $sortParam = $request->input('sort');
+        $sorts = [];
 
-        $allowedSorts = ['id', 'booking_date', 'invoice_code', 'booking_code', 'amount', 'status', 'created_at', 'payment_date'];
-        if (!in_array($sortField, $allowedSorts)) {
-            $sortField = 'id';
+        $allowedSorts = [
+            'id' => 'id',
+            'invoice_code' => 'invoice_code',
+            'booking_code' => 'invoice_code',
+            'booking_date' => 'booking_date',
+            'expense_name' => 'expense_name',
+            'booked_by' => 'booked_by',
+            'paid_by' => 'paid_by',
+            'amount' => 'amount',
+            'payment_date' => 'payment_date',
+            'status' => 'status',
+        ];
+
+        if (!empty($sortParam)) {
+            $pairs = explode(',', $sortParam);
+            foreach ($pairs as $pair) {
+                $parts = explode(':', trim($pair));
+                if (count($parts) === 2) {
+                    $col = trim($parts[0]);
+                    $dir = strtolower(trim($parts[1])) === 'asc' ? 'asc' : 'desc';
+                    if (array_key_exists($col, $allowedSorts)) {
+                        $sorts[] = ['col' => $col, 'dir' => $dir];
+                    }
+                }
+            }
+        } elseif ($request->filled('sort_by')) {
+            $col = $request->input('sort_by');
+            $dir = strtolower($request->input('sort_dir', 'desc')) === 'asc' ? 'asc' : 'desc';
+            if (array_key_exists($col, $allowedSorts)) {
+                $sorts[] = ['col' => $col, 'dir' => $dir];
+            }
         }
 
-        $query->orderBy($sortField, $sortDir);
+        if (!empty($sorts)) {
+            $hasJoinedDetail = false;
+            foreach ($sorts as $s) {
+                $c = $s['col'];
+                $d = $s['dir'];
+                if ($c === 'expense_name') {
+                    if (!$hasJoinedDetail) {
+                        $query->leftJoin('expense_details', 'booking_histories.id', '=', 'expense_details.booking_history_id')
+                              ->select('booking_histories.*');
+                        $hasJoinedDetail = true;
+                    }
+                    $query->orderBy("expense_details.expense_name", $d);
+                } else {
+                    $query->orderBy("booking_histories.{$allowedSorts[$c]}", $d);
+                }
+            }
+            $query->orderBy('booking_histories.id', 'desc');
+        } else {
+            $query->orderBy('booking_histories.id', 'desc');
+        }
 
         return [
             'query' => $query,
@@ -107,8 +154,10 @@ class ExpenseHistoryController extends Controller
                 'payDateAfter' => $payDateAfter,
                 'payDateBefore' => $payDateBefore,
                 'payDateOn' => $payDateOn,
-                'sort' => $sortField,
-                'direction' => $sortDir,
+                'sorts' => $sorts,
+                'sortParam' => $sortParam,
+                'sort' => !empty($sorts) ? $sorts[0]['col'] : 'id',
+                'direction' => !empty($sorts) ? $sorts[0]['dir'] : 'desc',
             ],
         ];
     }
