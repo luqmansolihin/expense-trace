@@ -140,6 +140,11 @@ class TicketHistoryController extends Controller
             'ticket_code' => 'booking_code',
             'invoice_code' => 'invoice_code',
             'ticket_date' => 'booking_date',
+            'origin' => 'origin',
+            'destination' => 'destination',
+            'transport_type' => 'transport_type',
+            'passenger_name' => 'passenger_name',
+            'passenger_count' => 'passenger_count',
             'booked_by' => 'booked_by',
             'paid_by' => 'paid_by',
             'amount' => 'amount',
@@ -168,12 +173,29 @@ class TicketHistoryController extends Controller
         }
 
         if (!empty($sorts)) {
+            $hasJoinedDetail = false;
             foreach ($sorts as $s) {
-                $query->orderBy($allowedSorts[$s['col']], $s['dir']);
+                $c = $s['col'];
+                $d = $s['dir'];
+                if (in_array($c, ['origin', 'destination', 'transport_type', 'passenger_name', 'passenger_count'])) {
+                    if (!$hasJoinedDetail) {
+                        $query->leftJoin('ticket_details', 'booking_histories.id', '=', 'ticket_details.booking_history_id')
+                              ->select('booking_histories.*');
+                        $hasJoinedDetail = true;
+                    }
+                    if ($c === 'passenger_count') {
+                        $expr = "(LENGTH(COALESCE(ticket_details.passenger_name, '')) - LENGTH(REPLACE(COALESCE(ticket_details.passenger_name, ''), ',', '')) + CASE WHEN COALESCE(ticket_details.passenger_name, '') = '' THEN 0 ELSE 1 END)";
+                        $query->orderByRaw("{$expr} {$d}");
+                    } else {
+                        $query->orderBy("ticket_details.{$c}", $d);
+                    }
+                } else {
+                    $query->orderBy("booking_histories.{$allowedSorts[$c]}", $d);
+                }
             }
-            $query->orderBy('id', 'desc');
+            $query->orderBy('booking_histories.id', 'desc');
         } else {
-            $query->orderBy('id', 'desc');
+            $query->orderBy('booking_histories.id', 'desc');
         }
 
         return [

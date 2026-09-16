@@ -210,12 +210,16 @@ class HotelHistoryController extends Controller
         }
 
         if (!empty($sorts)) {
+            $hasJoinedDetail = false;
             foreach ($sorts as $s) {
                 $c = $s['col'];
                 $d = $s['dir'];
                 if (in_array($c, ['hotel_name', 'check_in_date', 'check_out_date', 'night_count', 'room_count', 'guest_name', 'guest_count'])) {
-                    $query->join('hotel_details', 'booking_histories.id', '=', 'hotel_details.booking_history_id')
-                          ->select('booking_histories.*');
+                    if (!$hasJoinedDetail) {
+                        $query->leftJoin('hotel_details', 'booking_histories.id', '=', 'hotel_details.booking_history_id')
+                              ->select('booking_histories.*');
+                        $hasJoinedDetail = true;
+                    }
                     if ($c === 'guest_count') {
                         $expr = "(LENGTH(COALESCE(hotel_details.guest_name, '')) - LENGTH(REPLACE(COALESCE(hotel_details.guest_name, ''), ',', '')) + CASE WHEN COALESCE(hotel_details.guest_name, '') = '' THEN 0 ELSE 1 END)";
                         $query->orderByRaw("{$expr} {$d}");
