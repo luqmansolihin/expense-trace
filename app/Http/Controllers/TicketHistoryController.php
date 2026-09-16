@@ -312,15 +312,19 @@ class TicketHistoryController extends Controller
         }
         $validated['booked_by_user_id'] = Auth::id();
 
-        if (empty($validated['paid_by'])) {
-            $validated['paid_by'] = '-';
-        }
-
         if ($validated['status'] === 'Lunas') {
-            $validated['paid_by'] = Auth::user()->name;
-            $validated['paid_by_user_id'] = Auth::id();
+            if (empty($validated['paid_by']) || $validated['paid_by'] === '-') {
+                $validated['paid_by'] = Auth::user()->name;
+                $validated['paid_by_user_id'] = Auth::id();
+            }
             if (empty($validated['payment_date'])) {
                 $validated['payment_date'] = now()->format('Y-m-d');
+            }
+        } else {
+            if (empty($validated['payment_date']) || $validated['status'] === 'Belum Bayar' || $validated['status'] === 'Dibatalkan') {
+                $validated['paid_by'] = '-';
+                $validated['paid_by_user_id'] = null;
+                $validated['payment_date'] = null;
             }
         }
 
@@ -422,8 +426,8 @@ class TicketHistoryController extends Controller
                 'booked_by' => $request->input('booked_by', $ticket->booked_by),
                 'booked_by_user_id' => $request->input('booked_by_user_id', $ticket->booked_by_user_id),
                 'amount' => $request->input('amount', $ticket->amount),
-                'paid_by' => $request->input('paid_by', $ticket->paid_by ?: Auth::user()->name),
-                'paid_by_user_id' => $request->input('paid_by_user_id', $ticket->paid_by_user_id ?: Auth::id()),
+                'paid_by' => $request->input('paid_by', ($ticket->paid_by && $ticket->paid_by !== '-') ? $ticket->paid_by : '-'),
+                'paid_by_user_id' => $request->input('paid_by_user_id', ($ticket->paid_by && $ticket->paid_by !== '-') ? $ticket->paid_by_user_id : null),
             ]);
         }
 
@@ -438,7 +442,7 @@ class TicketHistoryController extends Controller
             'passenger_names.*' => 'required|string|max:255',
             'booked_by' => 'required|string|max:255',
             'booked_by_user_id' => 'nullable|exists:users,id',
-            'paid_by' => 'required|string|max:255',
+            'paid_by' => 'nullable|string|max:255',
             'paid_by_user_id' => 'nullable|exists:users,id',
             'payment_date' => 'nullable|date',
             'amount' => 'required|numeric|min:0',
@@ -494,13 +498,26 @@ class TicketHistoryController extends Controller
                     }
                 } elseif ($validated['status'] === 'Dibatalkan') {
                     $validated['status'] = 'Dibatalkan';
+                    if ($ticket->status === 'Belum Bayar' || empty($ticket->payment_date)) {
+                        $validated['paid_by'] = '-';
+                        $validated['paid_by_user_id'] = null;
+                        $validated['payment_date'] = null;
+                    }
                 } else {
                     $validated['status'] = 'Belum Bayar';
-                    $validated['paid_by'] = $ticket->paid_by ?: '-';
-                    $validated['paid_by_user_id'] = $ticket->paid_by_user_id;
+                    $validated['paid_by'] = '-';
+                    $validated['paid_by_user_id'] = null;
                     $validated['payment_date'] = null;
                 }
             }
+        }
+
+        $oldStatus = $ticket->status;
+        $newStatus = $validated['status'];
+
+        if ($oldStatus === 'Lunas') {
+            $validated['booked_by'] = $ticket->booked_by;
+            $validated['booked_by_user_id'] = $ticket->booked_by_user_id;
         }
 
         if ($validated['status'] === 'Lunas') {
@@ -508,10 +525,20 @@ class TicketHistoryController extends Controller
                 $validated['paid_by'] = Auth::user()->name;
                 $validated['paid_by_user_id'] = Auth::id();
             }
+            if (empty($validated['payment_date'])) {
+                $validated['payment_date'] = now()->format('Y-m-d');
+            }
+        } elseif ($validated['status'] === 'Belum Bayar') {
+            $validated['paid_by'] = '-';
+            $validated['paid_by_user_id'] = null;
+            $validated['payment_date'] = null;
+        } elseif ($validated['status'] === 'Dibatalkan') {
+            if ($oldStatus === 'Belum Bayar' || empty($ticket->payment_date) || empty($validated['payment_date'])) {
+                $validated['paid_by'] = '-';
+                $validated['paid_by_user_id'] = null;
+                $validated['payment_date'] = null;
+            }
         }
-
-        $oldStatus = $ticket->status;
-        $newStatus = $validated['status'];
 
         if ($request->hasFile('attachment')) {
             if ($ticket->attachment_path && Storage::disk('public')->exists($ticket->attachment_path)) {

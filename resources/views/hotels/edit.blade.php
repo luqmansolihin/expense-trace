@@ -9,7 +9,9 @@
     $isLunas = $hotel->status === 'Lunas';
     
     $isBookerLunas = $isFinance && $isLunas;
-    $isDataLocked = $isBookerLunas;
+    $isDataLocked = $isLunas;
+    
+    $isBookerUnpaid = $isFinance && $hotel->status === 'Belum Bayar';
 @endphp
 
 <div x-data="{ 

@@ -225,21 +225,19 @@ class ExpenseHistoryController extends Controller
         }
         $validated['booked_by_user_id'] = Auth::id();
 
-        if (!Auth::user()->isAdmin()) {
-            $validated['status'] = 'Belum Bayar';
-            $validated['paid_by'] = '-';
-            $validated['paid_by_user_id'] = null;
-            $validated['payment_date'] = null;
-        } else {
-            if (empty($validated['paid_by'])) {
-                $validated['paid_by'] = '-';
-            }
-            if ($validated['status'] === 'Lunas') {
+        if ($validated['status'] === 'Lunas') {
+            if (empty($validated['paid_by']) || $validated['paid_by'] === '-') {
                 $validated['paid_by'] = Auth::user()->name;
                 $validated['paid_by_user_id'] = Auth::id();
-                if (empty($validated['payment_date'])) {
-                    $validated['payment_date'] = now()->format('Y-m-d');
-                }
+            }
+            if (empty($validated['payment_date'])) {
+                $validated['payment_date'] = now()->format('Y-m-d');
+            }
+        } else {
+            if (empty($validated['payment_date']) || $validated['status'] === 'Belum Bayar' || $validated['status'] === 'Dibatalkan') {
+                $validated['paid_by'] = '-';
+                $validated['paid_by_user_id'] = null;
+                $validated['payment_date'] = null;
             }
         }
 
@@ -356,20 +354,25 @@ class ExpenseHistoryController extends Controller
         $oldStatus = $expense->status;
         $newStatus = $validated['status'];
 
-        if (Auth::user()->isFinance() && !Auth::user()->isAdmin()) {
-            $validated['paid_by'] = Auth::user()->name;
-            $validated['paid_by_user_id'] = Auth::id();
+        if ($oldStatus === 'Lunas') {
+            $validated['booked_by'] = $expense->booked_by;
+            $validated['booked_by_user_id'] = $expense->booked_by_user_id;
+        }
 
-            if ($newStatus === 'Lunas') {
-                if (empty($validated['payment_date'])) {
-                    $validated['payment_date'] = now()->format('Y-m-d');
-                }
-            } else {
-                $validated['payment_date'] = null;
+        if ($validated['status'] === 'Lunas') {
+            if (empty($validated['paid_by_user_id']) || empty($validated['paid_by']) || $validated['paid_by'] === '-') {
+                $validated['paid_by'] = Auth::user()->name;
+                $validated['paid_by_user_id'] = Auth::id();
             }
-        } elseif (!Auth::user()->isAdmin()) {
-            if ($oldStatus !== 'Lunas') {
-                $validated['status'] = 'Belum Bayar';
+            if (empty($validated['payment_date'])) {
+                $validated['payment_date'] = now()->format('Y-m-d');
+            }
+        } elseif ($validated['status'] === 'Belum Bayar') {
+            $validated['paid_by'] = '-';
+            $validated['paid_by_user_id'] = null;
+            $validated['payment_date'] = null;
+        } elseif ($validated['status'] === 'Dibatalkan') {
+            if ($oldStatus === 'Belum Bayar' || empty($expense->payment_date) || empty($validated['payment_date'])) {
                 $validated['paid_by'] = '-';
                 $validated['paid_by_user_id'] = null;
                 $validated['payment_date'] = null;

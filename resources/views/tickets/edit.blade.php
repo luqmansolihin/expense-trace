@@ -9,7 +9,7 @@
     $isLunas = $ticket->status === 'Lunas';
     
     $isBookerLunas = $isFinance && $isLunas;
-    $isDataLocked = $isBookerLunas;
+    $isDataLocked = $isLunas;
     
     $isBookerUnpaid = $isFinance && $ticket->status === 'Belum Bayar';
 @endphp
@@ -192,7 +192,7 @@
                         <label for="booked_by" class="block text-xs font-medium text-slate-700 mb-1.5">
                             Nama Pemesan <span class="text-rose-600">*</span>
                         </label>
-                        <input type="text" id="booked_by" name="booked_by" value="{{ old('booked_by', $ticket->booked_by) }}" required placeholder="Contoh: Martha" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm @error('booked_by') border-rose-500 @enderror">
+                        <input type="text" id="booked_by" name="booked_by" value="{{ old('booked_by', $ticket->booked_by) }}" required placeholder="Contoh: Martha" {{ $isDataLocked ? 'disabled' : '' }} class="w-full glass-input rounded-xl px-4 py-2.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed @error('booked_by') border-rose-500 @enderror">
                         @error('booked_by')
                             <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
                         @enderror
