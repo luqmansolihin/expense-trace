@@ -138,7 +138,7 @@ class TicketHistoryController extends Controller
 
         $allowedSorts = [
             'id' => 'id',
-            'ticket_code' => 'ticket_code',
+            'ticket_code' => 'booking_code',
             'invoice_code' => 'invoice_code',
             'ticket_date' => 'booking_date',
             'origin' => 'origin',
