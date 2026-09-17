@@ -102,7 +102,7 @@
 
         <!-- Login Form Card -->
         <div class="glass-card p-6 sm:p-8 rounded-3xl shadow-xl">
-            <form action="{{ route('login') }}" method="POST" class="space-y-4">
+            <form action="{{ route('login') }}" method="POST" autocomplete="on" class="space-y-4">
                 @csrf
 
                 <div>
@@ -111,7 +111,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="email@example.com" class="w-full glass-input rounded-xl pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 @error('email') border-rose-500 @enderror">
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="email@example.com" autocomplete="username" class="w-full glass-input rounded-xl pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 @error('email') border-rose-500 @enderror">
                     </div>
                     @error('email')
                         <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
@@ -124,7 +124,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                             <i class="fa-solid fa-lock"></i>
                         </div>
-                        <input type="password" id="password" name="password" required placeholder="••••••••" class="w-full glass-input rounded-xl pl-10 pr-4 py-2.5 text-sm placeholder-slate-400">
+                        <input type="password" id="password" name="password" required placeholder="••••••••" autocomplete="current-password" class="w-full glass-input rounded-xl pl-10 pr-4 py-2.5 text-sm placeholder-slate-400">
                     </div>
                 </div>
 

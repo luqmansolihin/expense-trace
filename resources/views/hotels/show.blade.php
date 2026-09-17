@@ -29,7 +29,7 @@
             @endcan
 
             @can('delete', $hotel)
-                <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data hotel ini? Data yang dihapus tidak dapat dikembalikan.');" class="inline">
+                <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" autocomplete="off" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data hotel ini? Data yang dihapus tidak dapat dikembalikan.');" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 hover:bg-rose-600 hover:text-white transition-all flex items-center gap-1.5">

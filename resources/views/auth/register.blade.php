@@ -15,7 +15,7 @@
     </div>
 
     <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 bg-white">
-        <form action="{{ route('users.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('users.store') }}" method="POST" autocomplete="off" class="space-y-5">
             @csrf
 
             <!-- Nama Lengkap -->
@@ -23,7 +23,7 @@
                 <label for="name" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Nama Lengkap <span class="text-rose-600">*</span>
                 </label>
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
+                <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus autocomplete="off"
                     placeholder="Contoh: Siti Nurhaliza"
                     class="w-full glass-input rounded-xl px-4 py-2.5 text-sm @error('name') border-rose-500 @enderror">
                 @error('name')
@@ -36,7 +36,7 @@
                 <label for="email" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Alamat Email <span class="text-rose-600">*</span>
                 </label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autocomplete="off"
                     placeholder="Contoh: siti@corporate.com"
                     class="w-full glass-input rounded-xl px-4 py-2.5 text-sm font-mono @error('email') border-rose-500 @enderror">
                 @error('email')
@@ -49,7 +49,7 @@
                 <label for="role" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Peran Akun / Hak Akses (Role) <span class="text-rose-600">*</span>
                 </label>
-                <select id="role" name="role" required class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-white text-slate-900 border border-slate-300 @error('role') border-rose-500 @enderror">
+                <select id="role" name="role" required autocomplete="off" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm bg-white text-slate-900 border border-slate-300 @error('role') border-rose-500 @enderror">
                     <option value="finance" {{ old('role', 'finance') == 'finance' ? 'selected' : '' }}>💼 Finance (Pemohon, Pengelola Transaksi & Pembayaran)</option>
                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>👤 User (Read Only)</option>
                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>🛡️ Admin Manager (Akses Penuh)</option>
@@ -64,7 +64,7 @@
                 <label for="password" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Password <span class="text-rose-600">*</span>
                 </label>
-                <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm placeholder-slate-400 @error('password') border-rose-500 @enderror">
+                <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="Minimal 8 karakter" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm placeholder-slate-400 @error('password') border-rose-500 @enderror">
                 @error('password')
                     <p class="text-rose-600 text-xs mt-1">{{ $message }}</p>
                 @enderror
@@ -75,7 +75,7 @@
                 <label for="password_confirmation" class="block text-xs font-medium text-slate-700 mb-1.5">
                     Konfirmasi Password <span class="text-rose-600">*</span>
                 </label>
-                <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="Ulangi password" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm placeholder-slate-400">
+                <input type="password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password" placeholder="Ulangi password" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm placeholder-slate-400">
             </div>
 
             <!-- Submit buttons -->

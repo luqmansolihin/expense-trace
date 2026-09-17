@@ -20,7 +20,7 @@
 
     <!-- Form Container -->
     <div class="glass-card p-4 sm:p-8 rounded-2xl shadow-sm border border-slate-200 bg-white overflow-hidden">
-        <form action="{{ route('expenses.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('expenses.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off" class="space-y-6">
             @csrf
 
 

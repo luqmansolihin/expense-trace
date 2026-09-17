@@ -172,7 +172,7 @@
                     <div class="w-8 h-8 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center font-bold text-sky-700 text-xs shadow-sm" title="{{ Auth::user()->name }}">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" class="inline" data-no-spa>
+                    <form action="{{ route('logout') }}" method="POST" autocomplete="off" class="inline" data-no-spa>
                         @csrf
                         <button type="submit" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 flex items-center gap-1.5 text-xs font-medium transition-all shadow-sm" title="Keluar dari Aplikasi">
                             <i class="fa-solid fa-right-from-bracket text-xs"></i>
@@ -295,7 +295,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('logout') }}" method="POST" data-no-spa>
+                    <form action="{{ route('logout') }}" method="POST" autocomplete="off" data-no-spa>
                         @csrf
                         <button type="submit" 
                                 :class="isCollapsed ? 'md:justify-center md:px-0' : 'px-3.5'"
@@ -626,6 +626,27 @@
                     loadSpaPage(window.location.href, { pushHistory: false });
                 });
             }
+
+            // Global Autocomplete Off Enforcer (Except Login Page)
+            function enforceAutocompleteOff(root = document) {
+                try {
+                    const forms = root.querySelectorAll('form');
+                    forms.forEach(f => f.setAttribute('autocomplete', 'off'));
+
+                    const inputs = root.querySelectorAll('input:not([type="hidden"]), select, textarea');
+                    inputs.forEach(i => i.setAttribute('autocomplete', 'off'));
+                } catch(err) {}
+            }
+
+            document.addEventListener('DOMContentLoaded', () => enforceAutocompleteOff());
+            window.addEventListener('spa:loaded', () => enforceAutocompleteOff());
+            document.addEventListener('focusin', (e) => {
+                if (e.target && ['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+                    if (e.target.type !== 'hidden' && e.target.getAttribute('autocomplete') !== 'off') {
+                        e.target.setAttribute('autocomplete', 'off');
+                    }
+                }
+            });
 
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initSpaEngine);

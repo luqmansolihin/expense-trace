@@ -30,7 +30,7 @@
                 <i class="fa-solid fa-file-pdf text-sm"></i> Preview & Cetak Boarding Pass
             </button>
             @can('delete', $ticket)
-                <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data tiket ini? Data yang dihapus tidak dapat dikembalikan.');" class="inline">
+                <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" autocomplete="off" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data tiket ini? Data yang dihapus tidak dapat dikembalikan.');" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 shadow-sm transition-all flex items-center justify-center gap-2">
@@ -52,7 +52,7 @@
             </div>
         @endif
 
-        <form action="{{ route('tickets.update', $ticket->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('tickets.update', $ticket->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off" class="space-y-6">
             @csrf
             @method('PUT')
 

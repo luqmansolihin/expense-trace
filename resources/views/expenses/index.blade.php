@@ -207,7 +207,7 @@
             </div>
         </div>
 
-        <form id="filter-form" action="{{ route('expenses.index') }}" method="GET" @submit.prevent="applyFilters()" class="flex-1 flex flex-col min-h-0 h-full overflow-hidden justify-between">
+        <form id="filter-form" action="{{ route('expenses.index') }}" method="GET" autocomplete="off" @submit.prevent="applyFilters()" class="flex-1 flex flex-col min-h-0 h-full overflow-hidden justify-between">
             <input type="hidden" id="sort_input" name="sort" :value="serializeSorts()">
 
             <div x-ref="scrollContainer" class="overflow-auto flex-1 min-h-0" @scroll.passive="onScroll($event)">
