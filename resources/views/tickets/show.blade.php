@@ -82,6 +82,10 @@
             <!-- Grid details -->
             <div class="grid grid-cols-2 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
                 <div>
+                    <span class="text-xs text-slate-600 block">Kode Invoice</span>
+                    <span class="text-sm font-semibold font-mono text-indigo-700 mt-0.5 block">{{ $ticket->invoice_code ?: '-' }}</span>
+                </div>
+                <div>
                     <span class="text-xs text-slate-600 block">Tanggal Keberangkatan</span>
                     <span class="text-base font-semibold text-sky-700 mt-0.5 block">{{ $ticket->ticket_date->format('d M Y') }}</span>
                 </div>

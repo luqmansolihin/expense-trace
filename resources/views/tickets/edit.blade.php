@@ -377,6 +377,7 @@
                                 <div>
                                     <p class="text-xs text-sky-100 uppercase font-mono tracking-wider">E-TICKET BOARDING PASS</p>
                                     <h3 class="font-mono font-bold text-lg">{{ $ticket->ticket_code ?: '-' }}</h3>
+                                    <p class="text-xs text-sky-100 font-mono mt-0.5">Invoice: <span class="font-bold text-white">{{ $ticket->invoice_code ?: '-' }}</span></p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 no-print">
@@ -424,6 +425,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <div>
+                                <span class="text-xs text-slate-600 block">Kode Invoice</span>
+                                <span class="text-sm font-semibold font-mono text-indigo-700 mt-0.5 block">{{ $ticket->invoice_code ?: '-' }}</span>
+                            </div>
                             <div>
                                 <span class="text-xs text-slate-600 block">Tanggal Keberangkatan</span>
                                 <span class="text-sm font-semibold text-sky-700 mt-0.5 block">{{ $ticket->ticket_date->format('d M Y') }}</span>
